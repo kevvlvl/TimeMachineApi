@@ -18,5 +18,5 @@ go run main.go
 
 GET the products endpoint
 ```
-url localhost:3100/products
+curl localhost:3100/products
 ```
