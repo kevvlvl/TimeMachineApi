@@ -1,4 +1,4 @@
-CREATE schema TimeMachine
+CREATE schema TimeMachine;
 
 CREATE TABLE TimeMachine.product (
     id SERIAL,
@@ -10,7 +10,7 @@ CREATE TABLE TimeMachine.product (
     CONSTRAINT chk_product_supplierCost CHECK (supplierCost > 0),
     CONSTRAINT chk_product_salePrice CHECK (salePrice > 0),
     CONSTRAINT chk_product_productType CHECK(productType IN ('beer', 'laptop', 'watch'))
-)
+);
 
 INSERT INTO TimeMachine.product(productName, productType, supplierCost, salePrice)
     VALUES('ThinkPad T Series', 'laptop', 800.00, 1000.99);

@@ -2,7 +2,7 @@ package main
 
 import (
 	"TimeMachineApi/service"
-	json2 "encoding/json"
+	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -30,7 +30,7 @@ func handleRoutes(router *chi.Mux) {
 	router.Get("/products", func(w http.ResponseWriter, r *http.Request) {
 
 		products := service.GetProducts()
-		json, _ := json2.Marshal(products)
+		json, _ := json.Marshal(products)
 
 		_, err := w.Write(json)
 		if err != nil {

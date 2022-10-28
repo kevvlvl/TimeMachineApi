@@ -9,41 +9,47 @@ type Product struct {
 	id           int    `json:"id"`
 	productName  string `json:"productName"`
 	productType  string `json:"productType"`
-	supplierCost int    `json:"supplierCost"`
-	salePrice    int    `json:"salePrice"`
+	supplierCost string `json:"supplierCost"`
+	salePrice    string `json:"salePrice"`
 }
 
 func GetProducts() []Product {
 
+	var products []Product
 	fmt.Println("BEGIN GetProducts")
 
 	db := database.OpenConnection()
-	rows, _ := db.Query("SELECT id, productName, productType, supplierCost, salePrice FROM product")
-	var products []Product
 
-	if rows != nil {
+	if db != nil {
 
-		for rows.Next() {
-			var id int
-			var productName string
-			var productType string
-			var supplierCost int
-			var retailPrice int
+		rows, _ := db.Query("SELECT id, productName, productType, supplierCost, salePrice FROM timemachine.product")
 
-			err := rows.Scan(&id, &productName, &productType, &supplierCost, &retailPrice)
+		if rows != nil {
 
-			if err != nil {
-				fmt.Println("Error trying to scan row for the listed fields: ", err)
-				return nil
+			for rows.Next() {
+				var id int
+				var productName string
+				var productType string
+				var supplierCost string
+				var retailPrice string
+
+				err := rows.Scan(&id, &productName, &productType, &supplierCost, &retailPrice)
+
+				if err != nil {
+					fmt.Println("Error trying to scan row for the listed fields: ", err)
+					database.CloseConnection(db)
+					return nil
+				}
+				
+				products = append(products, Product{id, productName, productType, supplierCost, retailPrice})
+
+				fmt.Println("Successfully obtained products. Count of products = ", len(products))
 			}
 
-			products = append(products, Product{id, productName, productType, supplierCost, retailPrice})
-
-			fmt.Println("Successfully obtained products. Count of products = ", len(products))
+		} else {
+			fmt.Println("WARNING. No results returned!")
+			database.CloseConnection(db)
 		}
-
-	} else {
-		fmt.Println("WARNING. No results returned!")
 	}
 
 	fmt.Println("END GetProducts")

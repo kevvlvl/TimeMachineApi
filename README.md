@@ -4,9 +4,14 @@ Written in GoLang, this simple Asynch HTTP-based REST API connects to a PostgreS
 
 ## Setup
 
-Run a PostgreSQL table
+Run a PostgreSQL table using podman
+
+What is podman? Quickly, podman is an open source direct replacement of docker, however it is daemon-less and root-less
 ```
-docker container run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=timemachinedb postgres:alpine
+❯ podman container run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=timemachinedb postgres:alpine
+❯ podman container ls
+CONTAINER ID  IMAGE                              COMMAND     CREATED        STATUS            PORTS                   NAMES
+177b5797480e  docker.io/library/postgres:alpine  postgres    2 minutes ago  Up 2 minutes ago  0.0.0.0:5432->5432/tcp  postgres
 ```
 
 Init the script into PostgreSQL using DataGrip or a PostgreSQL compatible sql client (pgAdmin)
