@@ -16,6 +16,8 @@ CONTAINER ID  IMAGE                              COMMAND     CREATED        STAT
 
 Init the script into PostgreSQL using DataGrip or a PostgreSQL compatible sql client (pgAdmin)
 
+## Running the API
+
 Run the API
 ```
 go run main.go
