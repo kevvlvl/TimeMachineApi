@@ -23,5 +23,6 @@ go run main.go
 
 GET the products endpoint
 ```
-curl localhost:3100/products
+❯ curl localhost:3100/products                                                                                                                                                            ~
+[{"id":1,"productName":"ThinkPad T Series","productType":"laptop","supplierCost":"800.00","salePrice":"1000.99"},{"id":2,"productName":"Seiko 5","productType":"watch","supplierCost":"45.00","salePrice":"99.95"},{"id":3,"productName":"Das Beer","productType":"beer","supplierCost":"3","salePrice":"6.00"}]
 ```

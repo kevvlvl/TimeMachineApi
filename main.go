@@ -2,10 +2,10 @@ package main
 
 import (
 	"TimeMachineApi/service"
-	"encoding/json"
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/render"
 	"net/http"
 )
 
@@ -30,12 +30,9 @@ func handleRoutes(router *chi.Mux) {
 	router.Get("/products", func(w http.ResponseWriter, r *http.Request) {
 
 		products := service.GetProducts()
-		json, _ := json.Marshal(products)
 
-		_, err := w.Write(json)
-		if err != nil {
-			return
-		}
+		render.Status(r, http.StatusOK)
+		render.JSON(w, r, products)
 	})
 }
 
@@ -54,6 +51,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	handleRoutes(r)
 	serveHttp(r)

@@ -6,11 +6,11 @@ import (
 )
 
 type Product struct {
-	id           int    `json:"id"`
-	productName  string `json:"productName"`
-	productType  string `json:"productType"`
-	supplierCost string `json:"supplierCost"`
-	salePrice    string `json:"salePrice"`
+	Id           int    `json:"id"`
+	ProductName  string `json:"productName"`
+	ProductType  string `json:"productType"`
+	SupplierCost string `json:"supplierCost"`
+	SalePrice    string `json:"salePrice"`
 }
 
 func GetProducts() []Product {
@@ -40,7 +40,7 @@ func GetProducts() []Product {
 					database.CloseConnection(db)
 					return nil
 				}
-				
+
 				products = append(products, Product{id, productName, productType, supplierCost, retailPrice})
 
 				fmt.Println("Successfully obtained products. Count of products = ", len(products))
