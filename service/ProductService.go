@@ -2,7 +2,7 @@ package service
 
 import (
 	"TimeMachineApi/database"
-	"fmt"
+	log "github.com/sirupsen/logrus"
 )
 
 type Product struct {
@@ -16,7 +16,7 @@ type Product struct {
 func GetProducts() []Product {
 
 	var products []Product
-	fmt.Println("BEGIN GetProducts")
+	log.Info("BEGIN GetProducts")
 
 	db := database.OpenConnection()
 
@@ -36,22 +36,24 @@ func GetProducts() []Product {
 				err := rows.Scan(&id, &productName, &productType, &supplierCost, &retailPrice)
 
 				if err != nil {
-					fmt.Println("Error trying to scan row for the listed fields: ", err)
+					log.Error("Error trying to scan row for the listed fields: ", err)
 					database.CloseConnection(db)
 					return nil
 				}
 
-				products = append(products, Product{id, productName, productType, supplierCost, retailPrice})
+				var p = Product{id, productName, productType, supplierCost, retailPrice}
+				products = append(products, p)
 
-				fmt.Println("Successfully obtained products. Count of products = ", len(products))
+				log.Debug("Product queried and added to the list of products = ", p)
+				log.Info("Successfully obtained products. Count of products = ", len(products))
 			}
 
 		} else {
-			fmt.Println("WARNING. No results returned!")
+			log.Warn("WARNING. No results returned!")
 			database.CloseConnection(db)
 		}
 	}
 
-	fmt.Println("END GetProducts")
+	log.Info("END GetProducts")
 	return products
 }

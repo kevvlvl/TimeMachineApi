@@ -2,10 +2,10 @@ package main
 
 import (
 	"TimeMachineApi/service"
-	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -15,6 +15,7 @@ func handleRoutes(router *chi.Mux) {
 
 		_, err := w.Write([]byte("Hello! Root Path serves no content"))
 		if err != nil {
+			log.Error("Error trying to query /")
 			return
 		}
 	})
@@ -23,6 +24,7 @@ func handleRoutes(router *chi.Mux) {
 
 		_, err := w.Write([]byte("API is up and ready"))
 		if err != nil {
+			log.Error("Error trying to query /health")
 			return
 		}
 	})
@@ -46,7 +48,8 @@ func serveHttp(router *chi.Mux) {
 
 func main() {
 
-	fmt.Println("BEGIN TimeMachineApi")
+	log.SetFormatter(&log.JSONFormatter{})
+	log.Info("BEGIN TimeMachineApi")
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -56,5 +59,5 @@ func main() {
 	handleRoutes(r)
 	serveHttp(r)
 
-	fmt.Println("END TimeMachineApi")
+	log.Info("END TimeMachineApi")
 }
